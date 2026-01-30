@@ -1,0 +1,11 @@
+app:
+  name: wallet-service
+  env: local
+
+http:
+  port: 8080
+
+db:
+  host: localhost
+  port: 5432
+  name: wallet

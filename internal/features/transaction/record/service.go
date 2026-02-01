@@ -1,9 +1,9 @@
-package create
+package record
 
 import (
 	"context"
+	"wallet/internal/shared/db/sqlc"
 	"wallet/internal/shared/tx"
-	"wallet/internal/transaction/create/sqlc"
 
 	"go.uber.org/zap"
 )

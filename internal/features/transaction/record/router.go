@@ -1,4 +1,4 @@
-package create
+package record
 
 import (
 	"wallet/internal/shared/tx"

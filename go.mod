@@ -5,6 +5,7 @@ go 1.24.5
 require (
 	github.com/gin-gonic/gin v1.11.0
 	github.com/jackc/pgx/v5 v5.8.0
+	github.com/shopspring/decimal v1.4.0
 	github.com/spf13/viper v1.21.0
 	go.uber.org/zap v1.27.1
 )

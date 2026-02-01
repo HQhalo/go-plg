@@ -2,9 +2,9 @@ version: "2"
 sql:
   - engine: postgresql
     schema: migrations
-    queries: internal/transaction/create/sqlc/queries.sql
+    queries: internal/shared/db/queries
     gen:
       go:
         package: sqlc
-        out: internal/transaction/create/sqlc
+        out: internal/shared/db/sqlc
         sql_package: "pgx/v5"

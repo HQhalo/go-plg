@@ -1,7 +1,7 @@
-package create
+package record
 
 import (
-	"wallet/internal/transaction/create/sqlc"
+	"wallet/internal/shared/db/sqlc"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

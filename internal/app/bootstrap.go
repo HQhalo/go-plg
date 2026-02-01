@@ -3,11 +3,11 @@ package app
 import (
 	"context"
 	"time"
+	trxRecord "wallet/internal/features/transaction/record"
 	"wallet/internal/shared/config"
 	"wallet/internal/shared/db"
 	"wallet/internal/shared/logger"
 	"wallet/internal/shared/tx"
-	trxCreate "wallet/internal/transaction/create"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -44,7 +44,7 @@ func Bootstrap(ctx context.Context) (*BootstrapResult, error) {
 
 	v1 := r.Group("/v1")
 
-	trxCreate.RegisterRoutes(v1, deps.Log, deps.Tx)
+	trxRecord.RegisterRoutes(v1, deps.Log, deps.Tx)
 
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{

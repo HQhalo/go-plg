@@ -6,6 +6,6 @@ http:
   port: 8080
 
 db:
-  host: localhost
-  port: 5432
-  name: wallet
+  dsn: postgresql://usr_wallet_rw:dsf43mlSHGRcsfs@postgresql.homelab.services:5432/wallet_db?sslmode=disable
+  maxconns: 30
+  minconns: 10

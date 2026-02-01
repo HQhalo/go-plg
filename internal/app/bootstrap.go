@@ -1,9 +1,13 @@
 package app
 
 import (
-	bypurchase "wallet/internal/earn/by_purchase"
+	"context"
+	"time"
 	"wallet/internal/shared/config"
+	"wallet/internal/shared/db"
 	"wallet/internal/shared/logger"
+	"wallet/internal/shared/tx"
+	trxCreate "wallet/internal/transaction/create"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -15,8 +19,15 @@ type BootstrapResult struct {
 	Log    *zap.Logger
 }
 
-func Bootstrap() (*BootstrapResult, error) {
-	deps, err := initDeps()
+type Deps struct {
+	Cfg *config.Config
+	Log *zap.Logger
+	DB  *db.DB
+	Tx  *tx.Manager
+}
+
+func Bootstrap(ctx context.Context) (*BootstrapResult, error) {
+	deps, err := initDeps(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +44,7 @@ func Bootstrap() (*BootstrapResult, error) {
 
 	v1 := r.Group("/v1")
 
-	bypurchase.RegisterRoutes(v1, deps.Log)
+	trxCreate.RegisterRoutes(v1, deps.Log, deps.Tx)
 
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -48,7 +59,7 @@ func Bootstrap() (*BootstrapResult, error) {
 	}, nil
 }
 
-func initDeps() (*Deps, error) {
+func initDeps(ctx context.Context) (*Deps, error) {
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		return nil, err
@@ -59,8 +70,19 @@ func initDeps() (*Deps, error) {
 		return nil, err
 	}
 
+	dbCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+	db, err := db.NewDB(dbCtx, cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	txManager := tx.NewManager(db.Pool)
+
 	return &Deps{
 		Cfg: cfg,
 		Log: log,
+		DB:  db,
+		Tx:  txManager,
 	}, nil
 }

@@ -1,18 +1,10 @@
 version: "2"
 sql:
   - engine: postgresql
-    schema: internal/shared/db/schema
-    queries: internal/earn/by_purchase/queries.sql
+    schema: migrations
+    queries: internal/transaction/create/sqlc/queries.sql
     gen:
       go:
         package: sqlc
-        out: internal/earn/by_purchase/sqlc
-        sql_package: "pgx/v5"
-  - engine: postgresql
-    schema: internal/shared/db/schema
-    queries: internal/earn/manual_adjust/queries.sql
-    gen:
-      go:
-        package: sqlc
-        out: internal/earn/manual_adjust/sqlc
+        out: internal/transaction/create/sqlc
         sql_package: "pgx/v5"

@@ -21,9 +21,9 @@ type Config struct {
 		Port int
 	}
 	DB struct {
-		Host string
-		Port int
-		Name string
+		DSN      string
+		Maxconns int
+		Minconns int
 	}
 }
 
